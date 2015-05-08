@@ -11,6 +11,6 @@ def getFileLines():
 # blanks save file and replaces it with whatever is put into the parameter
 def writeFile(writing):
     file = open('gameTextFile', 'w')
-    file.truncate(0)
+    #file.truncate(4)
     file.write(writing)
     file.close()

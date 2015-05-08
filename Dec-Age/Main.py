@@ -22,7 +22,7 @@ pygame.display.set_caption('DecAge - A Race for Space Against Time') # set game 
 gameFileText = open('gameTextFile', 'a') # create a blank file if file does not exists
 gameFileText.close()
 gameFileText = filehandling.getFileLines()
-if gameFileText[0] == '':
+if gameFileText[0] == '': # TODO: fix program crash when file has a blank first line, array index out of range error
     filehandling.writeFile("Save file for DecAge\nPlayer Max Health: 100\nPlayer Weapons: s_\nRooms Beaten: ")
     gameFileText = filehandling.getFileLines()
 
