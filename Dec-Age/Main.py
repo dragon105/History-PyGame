@@ -1,8 +1,9 @@
 import sys
 import pygame
 from pygame.locals import *
-from Helper_functions import filehandling
 from Classes.entities import player
+from Classes.levels import hub
+import helperfunctions
 
 global room, doors, doorStates, gameFileText
 
@@ -12,6 +13,7 @@ setup calls
 # globals
 doors = [] # list of door objects
 doorStates = [] # corresponds to doors. Contains a 0 for closed and a 1 for open
+gameFileText = []
 
 # pygame module related
 pygame.init() # ready pygame module for use
@@ -19,21 +21,26 @@ DISPLAY = pygame.display.set_mode((1200,700)) # create game window
 pygame.display.set_caption('DecAge - A Race for Space Against Time') # set game window caption
 
 # ready game file
-gameFileText = open('gameTextFile', 'a') # create a blank file if file does not exists
-gameFileText.close()
-gameFileText = filehandling.getFileLines()
-if gameFileText[0] == '': # TODO: fix program crash when file has a blank first line, array index out of range error
-    filehandling.writeFile("Save file for DecAge\nPlayer Max Health: 100\nPlayer Weapons: s_\nRooms Beaten: ")
-    gameFileText = filehandling.getFileLines()
+open('gameTextFile', 'a').close() # if file does not exist, create it.
+file = open('gameTextFile', 'r+')
+for line in file: # copy lines from file into array for easy reading
+    gameFileText.append(line[:-1])
+if file.readline() == '': # if file is blank, write the starting file content into it
+    helperfunctions.writeSaveFile('__\n0\n', file)
+    for line in file:
+        gameFileText.append(line[:-1])
+file.close() # we don't need the file open anymore, unless we want to write a save.
 
 # create player
-px = 500
-py = 500
-phe = gameFileText[1][19:-1]
-phem = phe
-pw1 = gameFileText[2][16]
-pw2 = gameFileText[2][17]
-gamePlayer = player.Player(px, py, int(phe), int(phem), pw1, pw2)
+px = 0
+py = 0
+ph = 100
+pw1 = gameFileText[0][0]
+pw2 = gameFileText[0][1]
+gamePlayer = player.Player(pw1, pw2, ph, px, py)
+
+# create health bar object
+HUD = helperfunctions.HPBar(10, 10, 100, 20).hp = 100
 
 # load up hub with unlocked levels TODO: create hub
 
@@ -50,7 +57,7 @@ while True:
             sys.exit()
 
     # game stuff goes here
-    if gamePlayer.statusFrames > 0: # update player's statusFrames variable if it's above 0
+    if gamePlayer.spriteFrames > 0: # update player's statusFrames variable if it's above 0
         gamePlayer.updateStatus()
 
     # nothing in the loop after this line
