@@ -5,7 +5,7 @@ from Classes.entities import player
 from Classes.levels import hub
 import helperfunctions
 
-global room, doors, doorStates, gameFileText
+global doors, doorStates, gameFileText, enemies, projectiles, walls
 
 """
 setup calls
@@ -13,11 +13,14 @@ setup calls
 # globals
 doors = [] # list of door objects
 doorStates = [] # corresponds to doors. Contains a 0 for closed and a 1 for open
-gameFileText = []
+gameFileText = [] # array containing important information
+enemies = pygame.group() # group for dealing with enemies
+projectiles = pygame.group() # group for dealing with projectiles
+walls = pygame.group() # group for dealing with walls
 
 # pygame module related
 pygame.init() # ready pygame module for use
-DISPLAY = pygame.display.set_mode((1200,700)) # create game window
+GAMESURFACE = pygame.display.set_mode((1200,700)) # create game window
 pygame.display.set_caption('DecAge - A Race for Space Against Time') # set game window caption
 
 # ready game file
@@ -40,25 +43,31 @@ pw2 = gameFileText[0][1]
 gamePlayer = player.Player(pw1, pw2, ph, px, py)
 
 # create health bar object
-HUD = helperfunctions.HPBar(10, 10, 100, 20).hp = 100
+healthbar = helperfunctions.HPBar(10, 10, 100, 20).hp = 100
 
 # load up hub with unlocked levels TODO: create hub
+
 
 """
 main game loop
 """
 while True:
-    # event handling
+    """
+    event handles
+    """
     for event in pygame.event.get():
-        # handles go here
-
+        ### handles go here. Use if \n elif format
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
 
-    # game stuff goes here
-    if gamePlayer.spriteFrames > 0: # update player's statusFrames variable if it's above 0
-        gamePlayer.updateStatus()
+    """
+    game logic, etc
+    """
+    ### first, draw everything in its current state
 
-    # nothing in the loop after this line
+
+    """
+    pygame.update. DO NOT WRITE GAME LOGIC AFTER THIS LINE
+    """
     pygame.display.update

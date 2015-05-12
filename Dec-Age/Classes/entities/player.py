@@ -62,5 +62,3 @@ class Player(pygame.sprite.Sprite):
         elif self.wC == '4':
             img = ''
         self.image = pygame.image.load(img)
-
-    #
