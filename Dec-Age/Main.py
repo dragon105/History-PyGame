@@ -2,21 +2,21 @@ import sys
 import pygame
 from pygame.locals import *
 from Classes.entities import player
-from Classes.levels import hub
+from Classes.Terrain import room
 import helperfunctions
 
-global doors, doorStates, gameFileText, enemies, projectiles, walls
+global room, gameFileText, enemies, projectiles, walls, gamePlayer
 
 """
 setup calls
 """
 # globals
-doors = [] # list of door objects
-doorStates = [] # corresponds to doors. Contains a 0 for closed and a 1 for open
 gameFileText = [] # array containing important information
-enemies = pygame.group() # group for dealing with enemies
-projectiles = pygame.group() # group for dealing with projectiles
-walls = pygame.group() # group for dealing with walls
+room = pygame.sprite.Group() # current room
+enemies = pygame.sprite.Group() # group for dealing with enemies
+projectiles = pygame.sprite.Group() # group for dealing with projectiles
+walls = pygame.sprite.Group() # group for dealing with walls
+gamePlayer = pygame.sprite.Group()
 
 # pygame module related
 pygame.init() # ready pygame module for use
@@ -40,7 +40,7 @@ py = 0
 ph = 100
 pw1 = gameFileText[0][0]
 pw2 = gameFileText[0][1]
-gamePlayer = player.Player(pw1, pw2, ph, px, py)
+player.Player(pw1, pw2, ph, px, py).add(gamePlayer)
 
 # create health bar object
 healthbar = helperfunctions.HPBar(10, 10, 100, 20).hp = 100
@@ -64,7 +64,21 @@ while True:
     """
     game logic, etc
     """
-    ### first, draw everything in its current state
+    # first, draw everything in its current state.
+    # image layering is as follows:
+    # background (room sprite variable 'image')
+    # walls
+    # doors
+    # enemies
+    # player
+    # projectiles
+    #room.draw(GAMESURFACE) TODO: problem line
+    walls.draw(GAMESURFACE)
+    #room.doors.draw(GAMESURFACE) # TODO: problem line
+    enemies.draw(GAMESURFACE)
+    #gamePlayer.draw(GAMESURFACE)
+    projectiles.draw(GAMESURFACE)
+
 
 
     """

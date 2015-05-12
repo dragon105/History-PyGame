@@ -5,10 +5,10 @@ class Player(pygame.sprite.Sprite):
     location = helperfunctions.PVector(0, 0)
     velocity = helperfunctions.PVector(0,0)
     health = 0 # health
+    image = ''
     w1 = '' # weapon 1
     w2 = '' # weapon 2
     wC = '' # weapon current
-    image = '' # image to display
     timeSinceLastDamage = 1000 # ticks time since last damage taken
     healthRegenRate = 1.5 # rate at which player's health regens
 
