@@ -6,6 +6,7 @@ class Player(pygame.sprite.Sprite):
     velocity = helperfunctions.PVector(0,0)
     health = 0 # health
     image = ''
+    rect = ''
     w1 = '' # weapon 1
     w2 = '' # weapon 2
     wC = '' # weapon current
@@ -33,6 +34,26 @@ class Player(pygame.sprite.Sprite):
 
     attackAnimationFrames = 0 # how long to play the attack animation before resetting sprite
 
+    # get the player's image based on current weapon
+    def getImage(self):
+        img = ''
+        if self.wC == '1':
+            if self.attackAnimationFrames > 0:
+                img = 'images\\sprite-player-swordattack.png'
+            else:
+                img = 'images\\sprite-player-sword.png'
+        elif self.wC == '2':
+            if self.attackAnimationFrames > 0:
+                img = 'images\\sprite-player-knifeattack.png'
+            else:
+                img = 'images\\sprite-player-knife.png'
+        elif self.wC =='3':
+            img = 'images\\sprite-player-revolver.png'
+        elif self.wC == '4':
+            img = ''
+        self.image = pygame.image.load(img, ".png")
+        self.rect = (self.location.x, self.location.y, self.image.get_width(), self.image.get_height())
+
     # constructor. Pass in the player's weapons and current health, as well as location
     def __init__(self, w1, w2, h, x, y):
         self.health = h
@@ -44,21 +65,5 @@ class Player(pygame.sprite.Sprite):
         # call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
 
-    # get the player's image based on current weapon
-    def getImage(self):
-        img = ''
-        if self.wC == '1':
-            if self.attackAnimationFrames > 0:
-                img = 'images\\sprite-player-swordattack'
-            else:
-                img = 'images\\sprite-player-sword'
-        elif self.wC == '2':
-            if self.attackAnimationFrames > 0:
-                img = 'images\\sprite-player-knifeattack'
-            else:
-                img = 'images\\sprite-player-knife'
-        elif self.wC =='3':
-            img = 'images\\sprite-player-revolver'
-        elif self.wC == '4':
-            img = ''
-        self.image = pygame.image.load(img)
+        # call previous functions to avoid crashes when game logic section of main loop asks for player's image and rect to draw player
+        self.getImage()

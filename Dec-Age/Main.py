@@ -72,11 +72,10 @@ while True:
     # enemies
     # player
     # projectiles
-    #room.draw(GAMESURFACE) TODO: problem line
+    room.draw(GAMESURFACE)
     walls.draw(GAMESURFACE)
-    #room.doors.draw(GAMESURFACE) # TODO: problem line
     enemies.draw(GAMESURFACE)
-    #gamePlayer.draw(GAMESURFACE)
+    gamePlayer.draw(GAMESURFACE)
     projectiles.draw(GAMESURFACE)
 
 
