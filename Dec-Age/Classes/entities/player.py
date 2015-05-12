@@ -39,19 +39,19 @@ class Player(pygame.sprite.Sprite):
         img = ''
         if self.wC == '1':
             if self.attackAnimationFrames > 0:
-                img = 'images\\sprite-player-swordattack.png'
+                img = pygame.image.load('images\\sprite-player-swordattack.png')
             else:
-                img = 'images\\sprite-player-sword.png'
+                img = pygame.image.load('images\\sprite-player-sword.png')
         elif self.wC == '2':
             if self.attackAnimationFrames > 0:
-                img = 'images\\sprite-player-knifeattack.png'
+                img = pygame.image.load('images\\sprite-player-knifeattack.png')
             else:
-                img = 'images\\sprite-player-knife.png'
+                img = pygame.image.load('images\\sprite-player-knife.png')
         elif self.wC =='3':
-            img = 'images\\sprite-player-revolver.png'
+            img = pygame.image.load('images\\sprite-player-revolver.png')
         elif self.wC == '4':
             img = ''
-        self.image = pygame.image.load(img, ".png")
+        self.image = img
         self.rect = (self.location.x, self.location.y, self.image.get_width(), self.image.get_height())
 
     # constructor. Pass in the player's weapons and current health, as well as location
