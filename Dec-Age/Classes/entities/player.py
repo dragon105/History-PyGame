@@ -6,7 +6,7 @@ class Player(pygame.sprite.Sprite):
     velocity = helperfunctions.PVector(0,0)
     health = 0 # health
     image = ''
-    rect = ''
+    rect = pygame.rect.Rect((0,0,0,0))
     w1 = '' # weapon 1
     w2 = '' # weapon 2
     wC = '' # weapon current
@@ -49,10 +49,11 @@ class Player(pygame.sprite.Sprite):
                 img = pygame.image.load('images\\sprite-player-knife.png')
         elif self.wC =='3':
             img = pygame.image.load('images\\sprite-player-revolver.png')
-        elif self.wC == '4':
+        elif self.wC == '4': #TODO: other player sprites
             img = ''
+        print(img) # DEBUG
         self.image = img
-        self.rect = (self.location.x, self.location.y, self.image.get_width(), self.image.get_height())
+        #self.rect = pygame.rect.Rect(self.location.x, self.location.y, img.get_width(), img.get_height()) #TODO: fix image displaying
 
     # constructor. Pass in the player's weapons and current health, as well as location
     def __init__(self, w1, w2, h, x, y):
@@ -67,3 +68,4 @@ class Player(pygame.sprite.Sprite):
 
         # call previous functions to avoid crashes when game logic section of main loop asks for player's image and rect to draw player
         self.getImage()
+
