@@ -1,11 +1,12 @@
 import sys
 import pygame
+
 from pygame.locals import *
 from Classes.entities import player
 from Classes.Terrain import room
 import helperfunctions
 
-global room, gameFileText, enemies, projectiles, walls, gamePlayer, gravity
+global room, gameFileText, enemies, projectiles, walls, gamePlayer, gravity, paused
 
 """
 setup calls
@@ -18,6 +19,7 @@ projectiles = pygame.sprite.Group() # group for dealing with projectiles
 walls = pygame.sprite.Group() # group for dealing with walls
 gamePlayer = pygame.sprite.Group()
 gravity = helperfunctions.PVector(0, -1)
+paused = False
 
 # ready game file
 open('gameTextFile', 'a').close() # if file does not exist, create it.
@@ -67,11 +69,36 @@ def Main():
             # use weapon     lclick
             # switch weapon  e
             # use Device     j
-            # move           wasd
+            # move           wad
             # pick up weapon q
             if event.type == KEYUP:
                 # key controls
-                keyStates = pygame.key.get_pressed()
+                keyStates = pygame.key.get_pressed() # TODO: bind actions to keys.
+                if keyStates[112] == True: # p
+                    #pause
+                    print()
+                elif keyStates[101] == True: # e
+                    #switch weapon
+                    print()
+                elif keyStates[106] == True: # j
+                    #use Device
+                    print()
+                elif keyStates[119] == True: # w
+                    #jump
+                    print()
+                elif keyStates[97] == True: # a
+                    # left
+                    print()
+                elif keyStates[115] == True: # d
+                    # right
+                    print()
+                elif keyStates[113] == True: # q
+                    # swap weapons
+                    print()
+
+            elif event.type == MOUSEBUTTONUP:
+                # TODO: fire weapon
+                print()
 
             elif event.type == QUIT:
                 pygame.quit()
