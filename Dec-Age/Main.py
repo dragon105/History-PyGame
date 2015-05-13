@@ -49,58 +49,62 @@ healthbar = helperfunctions.HPBar(10, 10, 100, 20).hp = 100
 # load up hub with unlocked levels TODO: create hub
 
 
-"""
-main game loop
-"""
-ticks = 0
-titleImage = pygame.image.load('images\\Title.png')
-while True:
+
+def Main():
     """
-    event handles
+    main game loop
     """
-    for event in pygame.event.get():
-        ### handles go here. Use if \n elif format
-        # game controls --
-        # pause          p
-        # use weapon     lclick
-        # switch weapon  e
-        # use Device     j
-        # move           wasd
-        # pick up weapon q
-        if event.type == KEYUP:
-            # key controls
-            keyStates = pygame.key.get_pressed()
+    ticks = 0
+    titleImage = pygame.image.load('images\\Title.png')
+    while True:
+        """
+        event handles
+        """
+        for event in pygame.event.get():
+            ### handles go here. Use if \n elif format
+            # game controls --
+            # pause          p
+            # use weapon     lclick
+            # switch weapon  e
+            # use Device     j
+            # move           wasd
+            # pick up weapon q
+            if event.type == KEYUP:
+                # key controls
+                keyStates = pygame.key.get_pressed()
+
+            elif event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+
+        """
+        game logic, etc
+        """
+
+        # first, draw everything in its current state.
+        # image layering is as follows:
+        # background (room sprite variable 'image')
+        # walls
+        # doors
+        # enemies
+        # player
+        # projectiles
+        #room.draw(GAMESURFACE) # TODO: fix image displays
+        #walls.draw(GAMESURFACE)
+        #enemies.draw(GAMESURFACE)
+        #gamePlayer.draw(GAMESURFACE)
+        #projectiles.draw(GAMESURFACE)
 
 
-        elif event.type == QUIT:
-            pygame.quit()
-            sys.exit()
+        # first few seconds, display the title image for a bit over everything else
+        if ticks < 500:
+            GAMESURFACE.blit(titleImage, (0,0))
 
-    """
-    game logic, etc
-    """
+        """
+        pygame.update and tick update. DO NOT WRITE GAME LOGIC AFTER THIS LINE
+        """
+        ticks += 1
+        pygame.display.update
 
-    # first, draw everything in its current state.
-    # image layering is as follows:
-    # background (room sprite variable 'image')
-    # walls
-    # doors
-    # enemies
-    # player
-    # projectiles
-    #room.draw(GAMESURFACE) # TODO: fix image displays
-    #walls.draw(GAMESURFACE)
-    #enemies.draw(GAMESURFACE)
-    #gamePlayer.draw(GAMESURFACE)
-    #projectiles.draw(GAMESURFACE)
-
-
-    # first few seconds, display the title image for a bit over everything else
-    if ticks < 500:
-        GAMESURFACE.blit(titleImage, (0,0))
-
-    """
-    pygame.update and tick update. DO NOT WRITE GAME LOGIC AFTER THIS LINE
-    """
-    ticks += 1
-    pygame.display.update
+# calls
+Main()
