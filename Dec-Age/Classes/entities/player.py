@@ -12,6 +12,7 @@ class Player(pygame.sprite.Sprite):
     wC = '' # weapon current
     timeSinceLastDamage = 1000 # ticks time since last damage taken
     healthRegenRate = 1.5 # rate at which player's health regens
+    attackAnimationFrames = 0 # how long to continue the attack animation before resetting sprite. 0 for not attacking
 
     """
     list of weapons and corresponding names in code
@@ -32,40 +33,33 @@ class Player(pygame.sprite.Sprite):
     lander     e
     """
 
-    attackAnimationFrames = 0 # how long to play the attack animation before resetting sprite
-
-    # get the player's image based on current weapon
-    def getImage(self):
-        img = ''
+    # get the player's image based on current weapon TODO: update to use sprite
+    def get_image(self):
         if self.wC == '1':
             if self.attackAnimationFrames > 0:
-                img = pygame.image.load('images\\sprite-player-swordattack.png')
+                return pygame.image.load('images\\sprite-player-swordattack.png')
             else:
-                img = pygame.image.load('images\\sprite-player-sword.png')
+                 return pygame.image.load('images\\sprite-player-sword.png')
         elif self.wC == '2':
             if self.attackAnimationFrames > 0:
-                img = pygame.image.load('images\\sprite-player-knifeattack.png')
+                return pygame.image.load('images\\sprite-player-knifeattack.png')
             else:
-                img = pygame.image.load('images\\sprite-player-knife.png')
+                return pygame.image.load('images\\sprite-player-knife.png')
         elif self.wC =='3':
-            img = pygame.image.load('images\\sprite-player-revolver.png')
+            return pygame.image.load('images\\sprite-player-revolver.png')
         elif self.wC == '4': #TODO: other player sprites
-            img = ''
-        print(img) # DEBUG
-        self.image = img
-        #self.rect = pygame.rect.Rect(self.location.x, self.location.y, img.get_width(), img.get_height()) #TODO: fix image displaying
+            return ''
 
     # constructor. Pass in the player's weapons and current health, as well as location
     def __init__(self, w1, w2, h, x, y):
+
+        # call the parent class (Sprite) constructor
+        pygame.sprite.Sprite.__init__(self)
+
         self.health = h
         self.w1 = w1
         self.w2 = w2
         wC = w1
         self.location.set(x, y)
-
-        # call the parent class (Sprite) constructor
-        pygame.sprite.Sprite.__init__(self)
-
-        # call previous functions to avoid crashes when game logic section of main loop asks for player's image and rect to draw player
-        self.getImage()
-
+        self.image = self.get_image()
+        self.rect = self.image.get_rect()
