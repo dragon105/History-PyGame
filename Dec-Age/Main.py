@@ -97,7 +97,7 @@ def Main():
                     print()
 
             elif event.type == MOUSEBUTTONUP:
-                # TODO: fire weapon
+                # TODO: use weapon
                 print()
 
             elif event.type == QUIT:
