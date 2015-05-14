@@ -43,7 +43,8 @@ py = 0
 ph = 100
 pw1 = gameFileText[0][0]
 pw2 = gameFileText[0][1]
-player.Player(pw1, pw2, ph, px, py).add(gamePlayer)
+p = player.Player(pw1, pw2, ph, px, py)
+p.add(gamePlayer)
 
 # create health bar object
 healthbar = helperfunctions.HPBar(10, 10, 100, 20).hp = 100

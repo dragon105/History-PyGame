@@ -5,7 +5,6 @@ class Player(pygame.sprite.Sprite):
     location = helperfunctions.PVector(0, 0)
     velocity = helperfunctions.PVector(0,0)
     health = 0 # health
-    image = ''
     rect = pygame.rect.Rect((0,0,0,0))
     w1 = '' # weapon 1
     w2 = '' # weapon 2
@@ -48,11 +47,10 @@ class Player(pygame.sprite.Sprite):
         elif self.wC =='3':
             return pygame.image.load('images\\sprite-player-revolver.png')
         elif self.wC == '4': #TODO: other player sprites
-            return ''
+            return 
 
     # constructor. Pass in the player's weapons and current health, as well as location
     def __init__(self, w1, w2, h, x, y):
-
         # call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
 
