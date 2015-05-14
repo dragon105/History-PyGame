@@ -26,10 +26,11 @@ open('gameTextFile', 'a').close() # if file does not exist, create it.
 file = open('gameTextFile', 'r+')
 for line in file: # copy lines from file into array for easy reading
     gameFileText.append(line[:-1])
+
 if file.readline() == '': # if file is blank, write the starting file content into it
     helperfunctions.writeSaveFile('__\n0\n', file)
-    for line in file:
-        gameFileText.append(line[:-1])
+    gameFileText.append('__\n0\n')
+    print(gameFileText)
 file.close() # we don't need the file open anymore, unless we want to write a save.
 
 # pygame module related
@@ -41,10 +42,10 @@ pygame.display.set_caption('DecAge - A Race for Space Against Time') # set game 
 px = 0
 py = 0
 ph = 100
-pw1 = gameFileText[0][0]
-pw2 = gameFileText[0][1]
-p = player.Player(pw1, pw2, ph, px, py)
-p.add(gamePlayer)
+#pw1 = gameFileText[0][0]
+#pw2 = gameFileText[0][1]
+#p = player.Player(pw1, pw2, ph, px, py)
+#p.add(gamePlayer)
 
 # create health bar object
 healthbar = helperfunctions.HPBar(10, 10, 100, 20).hp = 100
@@ -80,13 +81,13 @@ def Main():
                     print()
                 elif keyStates[101] == True: # e
                     #switch weapon
-                    print()
+                    gamePlayer.sprites.swapweapon()
                 elif keyStates[106] == True: # j
                     #use Device
                     print()
                 elif keyStates[119] == True: # w
                     #jump
-                    print()
+                    gamePlayer.sprites.jump()
                 elif keyStates[97] == True: # a
                     # left
                     print()
@@ -95,11 +96,10 @@ def Main():
                     print()
                 elif keyStates[113] == True: # q
                     # swap weapons
-                    print()
+                    gamePlayer.spites.grabWeapon()
 
             elif event.type == MOUSEBUTTONUP:
-                # TODO: use weapon
-                print()
+                gamePlayer.sprites.attack()
 
             elif event.type == QUIT:
                 pygame.quit()
