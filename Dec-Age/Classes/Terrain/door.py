@@ -20,6 +20,7 @@ class Door(pygame.sprite.Sprite):
             self.image = pygame.image.load('images\\sprite-terrain-opendoor.png')
         else:
             self.image = pygame.image.load('images\\sprite-terrain-closeddoor.png')
+        self.rect = self.image.get_rect()
 
     # opens the door and changes sprite to match
     def open(self):

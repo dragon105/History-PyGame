@@ -1,15 +1,16 @@
 import pygame
-import helperfunctions
 
 class Player(pygame.sprite.Sprite):
-    location = helperfunctions.PVector(0, 0)
-    velocity = helperfunctions.PVector(0,0)
+    fallingVelocity = 0 # realistic falling
     health = 0 # health
     w1 = '' # weapon 1
     w1cd = 0 # time left on weapon 1 cooldown
     w2 = '' # weapon 2
     w2cd = 0 # time left on weapon 2 cooldown
     wC = '' # weapon current
+
+    speed = 2 # walking speed
+
     timeSinceLastDamage = 1000 # ticks time since last damage taken
     healthRegenRate = 1.5 # rate at which player's health regens
     attackAnimationFrames = 0 # how long to continue the attack animation before resetting sprite. 0 for not attacking. Applies to melee attacks only
@@ -75,15 +76,16 @@ class Player(pygame.sprite.Sprite):
     # constructor. Pass in the player's weapons and current health, as well as location
     def __init__(self, w1, w2, h, x, y):
         # call the parent class (Sprite) constructor
-        pygame.sprite.Sprite.__init__(self)
+        super().__init__()
 
         self.health = h
         self.w1 = w1
         self.w2 = w2
-        wC = w1
-        self.location.set(x, y)
-        self.image = self.get_image()
+        self.wC = w1
+        self.image = self.get_image().convert()
         self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
 
     # controls. These functions are run when key events or mouse clicks are put in TODO: finish these
     def attack(self):

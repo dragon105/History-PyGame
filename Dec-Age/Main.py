@@ -3,49 +3,66 @@ import pygame
 
 from pygame.locals import *
 from Classes.entities import player
-from Classes.Terrain import room
+from Classes.Terrain import wall
+from Classes.entities import damageField
+from Classes.entities import damageField
 import helperfunctions
 
-global room, gameFileText, enemies, projectiles, walls, gamePlayer, gravity, paused
+global gameFileText, gravity, paused
 
 """
 setup calls
 """
-# globals
+pygame.init()
+
+# initial variable sets and pygame groups
 gameFileText = [] # array containing important information
-room = pygame.sprite.Group() # current room
 enemies = pygame.sprite.Group() # group for dealing with enemies
-projectiles = pygame.sprite.Group() # group for dealing with projectiles
 walls = pygame.sprite.Group() # group for dealing with walls
-gamePlayer = pygame.sprite.Group()
-gravity = helperfunctions.PVector(0, -1)
+doors = pygame.sprite.Group()
+gamePlayer = pygame.sprite.Group() # group for dealing with player
+explosions = pygame.sprite.Group() # group for dealing with explosion animations
+flowers = pygame.sprite.Group () # group for dealing with flower puff animations
+gravity -1 # gravity affecting player's and enemies' velocity
 paused = False
+# groups for dealing with each kind of projectile
+bbegrocket_group = pygame.sprite.Group()
+biglaser_group = pygame.sprite.Group()
+bullet_group = pygame.sprite.Group()
+fireball_group = pygame.sprite.Group()
+laser_group = pygame.sprite.Group()
+lightning_group = pygame.sprite.Group()
+peace_group = pygame.sprite.Group()
+rocket_group = pygame.sprite.Group()
+starfish_group = pygame.sprite.Group()
+lander_group = pygame.sprite.Group()
 
 # ready game file
 open('gameTextFile', 'a').close() # if file does not exist, create it.
 file = open('gameTextFile', 'r+')
-for line in file: # copy lines from file into array for easy reading
-    gameFileText.append(line[:-1])
-
 if file.readline() == '': # if file is blank, write the starting file content into it
-    helperfunctions.writeSaveFile('__\n0\n', file)
+    file.seek(0,0)
+    file.write('__\n0\n')
     gameFileText.append('__\n0\n')
-    print(gameFileText)
+else:
+    file.seek(0,0)
+    for line in file: # copy lines from file into array for easy reading
+        gameFileText.append(line[:-1])
+
 file.close() # we don't need the file open anymore, unless we want to write a save.
 
-# pygame module related
-pygame.init() # ready pygame module for use
-GAMESURFACE = pygame.display.set_mode((1200,700)) # create game window
+# create game window
+SCREEN = pygame.display.set_mode((1200,700)) # create game window
 pygame.display.set_caption('DecAge - A Race for Space Against Time') # set game window caption
 
 # create player
-px = 0
-py = 0
+px = 100
+py = 350
 ph = 100
-#pw1 = gameFileText[0][0]
-#pw2 = gameFileText[0][1]
-#p = player.Player(pw1, pw2, ph, px, py)
-#p.add(gamePlayer)
+pw1 = gameFileText[0][0]
+pw2 = gameFileText[0][1]
+p = player.Player(pw1, pw2, ph, px, py)
+p.add(gamePlayer)
 
 # create health bar object
 healthbar = helperfunctions.HPBar(10, 10, 100, 20).hp = 100
@@ -73,14 +90,12 @@ def Main():
             # use Device     j
             # move           wad
             # pick up weapon q
-            if event.type == KEYUP:
+            if event.type == KEYDOWN:
                 # key controls
                 keyStates = pygame.key.get_pressed() # TODO: bind actions to keys.
                 if keyStates[112] == True: # p
-                    #pause
-                    print()
+                    paused = True
                 elif keyStates[101] == True: # e
-                    #switch weapon
                     gamePlayer.sprites.swapweapon()
                 elif keyStates[106] == True: # j
                     #use Device
@@ -108,16 +123,97 @@ def Main():
         """
         game logic, etc
         """
+        ##### player relating to walls
+        # first, get a list of all walls the player has collided with.
+        walls_hit = pygame.sprite.spritecollide(gamePlayer, walls, False)
+
+        # player's falling velocity increases according to gravity. This is undone if player hits a wall from above
+        gamePlayer.sprites.fallingVelocity += gravity
+        for wall in walls_hit:
+            # if player is standing on a wall, player's falling velocity is zero
+            if ((wall.rect.y - wall.height) >= gamePlayer.sprites.rect.y):
+                gamePlayer.sprites.fallingVelocity = 0
+
+            # if player is hitting a wall from the left side or right side, player does not move through wall
+            if (wall.rect.x < (gamePlayer.spites.rect.x + 50)):
+                gamePlayer.sprites.rect.x -= gamePlayer.sprites.speed
+            if ((wall.rect.x + wall.width) > gamePlayer.sprites.rect.x):
+                gamePlayer.sprites.rect.x += gamePlayer.sprites.speed
+
+        ##### player relating to physics
+        # player should fall according to fallingVelocity
+        gamePlayer.sprites.rect.y += gamePlayer.sprites.fallingVelocity
+
+        ##### enemies relating to walls
+
+        ##### enemies relating to physics
+
+        ##### projectiles relating to walls
+        ### bbegrocket
+        projectiles_hit = pygame.sprite.spritecollide(walls, bbegrocket_group, True)
+        for rocket in projectiles_hit:
+            print()
+            #TODO: spawn explosion animation
+
+        ### biglaser
+        pygame.sprite.spritecollide(walls, biglaser_group, True)
+
+        ### bullet
+        pygame.sprite.spritecollide(walls, bullet_group, True)
+
+        ### fireball
+        projectiles_hit = pygame.sprite.spritecollide(walls, fireball_group, True)
+        for fireball in projectiles_hit:
+            print()
+            #TODO: spawn explosion animation, damage enemies in radius
+
+        ### laser
+        pygame.sprite.spritecollide(walls, laser_group, True)
+
+        ### lightning
+        pygame.sprite.spritecollide(walls, lightning_group, True)
+
+        ### peace
+        pygame.sprite.spritecollide(walls, peace_group, True)
+
+        ### rocket
+        projectiles_hit = pygame.sprite.spritecollide(walls, rocket_group, True)
+        for rocket in projectiles_hit:
+            print()
+            #TODO: spawn explosion animation and damage enemies
+
+        ### starfish
+        projectiles_hit = pygame.spritecollide(walls, starfish_group, True)
+        for star in projectiles_hit:
+            print()
+            #TODO: spawn explosion animation and damage enemies
+
+
+        ##### projectiles relating to player
+
+        ### BBEG rocket
+        projectiles_hit = pygame.spritecollide(gamePlayer, bbegrocket_group, True)
+        for rocket in projectiles_hit:
+            gamePlayer.sprites.health -= 30
+            #TODO: spawn explosion animation
+
+        ### biglaser
+        projectiles_hit = pygame.spritecollide(gamePlayer, biglaser_group, True)
+        for laser in projectiles_hit:
+            gamePlayer.sprites.health -= 7.5
+
+        ### laser
+        projectiles_hit = pygame.spritecollide(gamePlayer, laser_group, True)
+        for laser in projectiles_hit:
+            gamePlayer.sprites.health -= 10
+
 
         # first, draw everything in its current state.
         # image layering is as follows:
         # background (room sprite variable 'image')
-        # walls
-        # doors
         # enemies
         # player
         # projectiles
-        #room.draw(GAMESURFACE) # TODO: fix image displays
         #walls.draw(GAMESURFACE)
         #enemies.draw(GAMESURFACE)
         #gamePlayer.draw(GAMESURFACE)
@@ -126,13 +222,13 @@ def Main():
 
         # first few seconds, display the title image for a bit over everything else
         if ticks < 500:
-            GAMESURFACE.blit(titleImage, (0,0))
+            SCREEN.blit(titleImage, (0,0))
 
         """
-        pygame.update and tick update. DO NOT WRITE GAME LOGIC AFTER THIS LINE
+        End of loop things
         """
-        ticks += 1
-        pygame.display.update
+        # clear the screen
+        SCREEN.fill(255, 255, 255)
 
 # calls
 Main()
