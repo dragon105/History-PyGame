@@ -210,14 +210,14 @@ def Main():
 
         # first, draw everything in its current state.
         # image layering is as follows:
-        # background (room sprite variable 'image')
+        # background
+        # walls
+        # doors
         # enemies
         # player
         # projectiles
-        #walls.draw(GAMESURFACE)
-        #enemies.draw(GAMESURFACE)
-        #gamePlayer.draw(GAMESURFACE)
-        #projectiles.draw(GAMESURFACE)
+
+        #TODO: draws
 
 
         # first few seconds, display the title image for a bit over everything else

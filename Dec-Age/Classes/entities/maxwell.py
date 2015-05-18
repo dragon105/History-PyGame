@@ -82,13 +82,16 @@ class Maxwell(pygame.sprite.Sprite):
         # attack if charge time is complete and return created projectiles so that they can be added to their respective groups in Main
         # pass in gamePlayer Group object. returns projectile objects or groups
         def getAttackProjectiles(target):
-            if ((self.chargingFrames + self.chargingLaserFrames) == 1): #TODO: add creation of projectiles
+            if ((self.chargingFrames + self.chargingLaserFrames) == 1): #TODO: finish creation of projectiles
                 if (self.queuedAttack == 'rocket'):
                     self.image = pygame.image.load('images\\sprite-maxwell-lowhealth').convert()
                     # get velocity based on player's location relative to maxwell's
-
-
-                    rocket = projectiles.projectile()
+                    velocity = [(target.sprites.rect.x - self.rect.x), (target.sprites.rect.y - self.rect.y)]
+                    while ((abs(velocity[0]) + abs(velocity[1])) > 5):
+                        velocity[0] /= 2
+                        velocity[1] /= 2
+                    # create projectile
+                    rocket = projectiles.projectile(velocity, (self.rect.x + 43), (self.rect.y + 44), 'images\\sprite-projectile-bbegrocket', 'bbegrocket')
                 elif (self.queuedAttack == 'cone'):
                     self.image = pygame.image.load('images\\sprite-maxwell-lowhealth').convert()
                 elif (self.queuedAttack == 'biglaser'):
