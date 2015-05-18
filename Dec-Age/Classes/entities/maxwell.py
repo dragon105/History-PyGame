@@ -17,8 +17,10 @@ class Maxwell(pygame.sprite.Sprite):
 
     timeSinceLastAttack = 0 # time since last used an attack
 
-    doing_bigLaserframes = 0 # frames to display firing his Big Laser attack
+    doing_bigLaserFrames = 0 # frames to display firing his Big Laser attack
     doing_octaLaserFrames = 0 # frames to display firing his Octa Laser attack.
+    doing_coneFrames = 0
+    doing_bigConeFrames = 0
 
     # constructor
     def __init__(self):
@@ -104,7 +106,10 @@ class Maxwell(pygame.sprite.Sprite):
                     self.image = pygame.image.load('images\\sprite-maxwell-lowhealth-octashoop').convert()
 
         # update time keeping variables
-        self.chargingFrames -= 1
+        if self.chargingFrames > 1:
+            self.chargingFrames -= 1
+        if self.chargingLaserFrames > 1:
+            self.chargingLaserFrames -= 1
         self.chargingLaserFrames -= 1
         self.doing_bigLaserframes -= 1
         self.doing_bigLaserframes -= 1
