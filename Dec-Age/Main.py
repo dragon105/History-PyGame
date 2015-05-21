@@ -23,7 +23,7 @@ doors = pygame.sprite.Group()
 gamePlayer = pygame.sprite.Group() # group for dealing with player
 explosions = pygame.sprite.Group() # group for dealing with explosion animations
 flowers = pygame.sprite.Group () # group for dealing with flower puff animations
-gravity -1 # gravity affecting player's and enemies' velocity
+gravity = -1 # gravity affecting player's and enemies' velocity
 paused = False
 # groups for dealing with each kind of projectile
 bbegrocket_group = pygame.sprite.Group()
@@ -125,7 +125,7 @@ def Main():
         """
         ##### player relating to walls
         # first, get a list of all walls the player has collided with.
-        walls_hit = pygame.sprite.spritecollide(gamePlayer, walls, False)
+        walls_hit = pygame.sprite.groupcollide(gamePlayer, walls, False, False)
 
         # player's falling velocity increases according to gravity. This is undone if player hits a wall from above
         gamePlayer.sprites.fallingVelocity += gravity

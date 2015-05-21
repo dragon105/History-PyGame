@@ -87,7 +87,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-    # controls. These functions are run when key events or mouse clicks are put in TODO: finish these
+    # controls. These functions are called when key events or mouse clicks are put in TODO: finish these
     def attack(self):
         print()
 
